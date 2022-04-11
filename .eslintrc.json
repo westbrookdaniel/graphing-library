@@ -1,0 +1,8 @@
+{
+    "extends": ["react-app"],
+    "overrides": [
+        {
+            "files": ["*.test.(ts|tsx|js|jsx)"]
+        }
+    ]
+}
