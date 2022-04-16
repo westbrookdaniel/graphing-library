@@ -14,7 +14,6 @@ import useInitialBrushPosition from "../hooks/useInitialBrushPosition";
 import { filterLineData } from "../helpers/filterLineData";
 import TooltipWrapper from "../parts/TooltipWrapper";
 
-// Initialize some variables
 const brushMargin: graphMargin = { top: 10, bottom: 15, left: 60, right: 20 };
 const chartSeparation = 40;
 const PATTERN_ID = "brush_pattern";
@@ -51,7 +50,7 @@ function BrushGraphMulti<DataType>({
     isSkeleton,
     tooltipLabel,
 }: BrushProps<DataType>) {
-    // convert data into a common format using accessors
+    // Convert data into a common format using accessors
     const combinedxydata = useMemo(
         () =>
             multidata.flat().map(d => ({
@@ -84,7 +83,7 @@ function BrushGraphMulti<DataType>({
         },
         [xydata, combinedxydata],
     );
-    // very short debounce time to prevent it feeling delayed
+    // Very short debounce time to prevent it feeling delayed (should be replaced by react 18 features)
     const debouncedFilter = useMemo(() => debounce(handleFilter, 5), [handleFilter]);
     const onBrushChange = (domain: Bounds | null) => {
         if (!domain) return;
@@ -137,7 +136,7 @@ function BrushGraphMulti<DataType>({
         [yBrushBounds, combinedxydata],
     );
 
-    // sets the brush position when loaded and rest
+    // Sets the brush position when loaded and rest
     const initialBrushPosition = useInitialBrushPosition({ data: combinedxydata, brushXScale, initalFilter });
 
     const handleClear = () => {

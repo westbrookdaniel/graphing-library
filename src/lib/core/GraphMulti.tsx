@@ -33,7 +33,7 @@ function GraphMulti<DataType>({
     isSkeleton,
     tooltipLabel,
 }: GraphProps<DataType>) {
-    // convert data into a common format using accessors
+    // Convert data into a common format using accessors
     const combineddata = useMemo(() => multidata.flat(), [multidata]);
     const combinedxydata = useMemo(
         () =>
@@ -54,7 +54,7 @@ function GraphMulti<DataType>({
         [multidata, accessors],
     );
 
-    // taking 15 stops the bottom axis from being cut off
+    // Taking 15 stops the bottom axis from being cut off
     const innerHeight = height - margin.top - margin.bottom - labelSize;
 
     const xBounds = Math.max(width - margin.left - margin.right, 0);

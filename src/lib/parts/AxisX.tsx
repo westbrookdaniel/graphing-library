@@ -20,9 +20,9 @@ interface Props extends AxisProps {
 }
 
 export default function AxisX({ top, label, width, scale, isSkeleton, allTicks }: Props) {
-    // this shows less ticks (markers on an axis) at smaller widths
+    // This shows less ticks (markers on an axis) at smaller widths
     const ticks = width > 520 ? 10 : 5;
-    // text anchor isn't recongised as a css property for some reason
+    // Text anchor isn't recongised as a css property for some reason
     const tickProps = useMemo(
         () => (allTicks ? { writingMode: "tb", textAnchor: "start" as const, dy: "-0.4em" } : {}),
         [allTicks],

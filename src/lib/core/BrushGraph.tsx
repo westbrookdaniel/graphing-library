@@ -18,7 +18,6 @@ import useInitialBrushPosition from "../hooks/useInitialBrushPosition";
 import { filterLineData } from "../helpers/filterLineData";
 import type { StandardGraphProps, graphMargin } from "../types";
 
-// Initialize some variables
 const brushMargin: graphMargin = { top: 10, bottom: 15, left: 60, right: 20 };
 const chartSeparation = 40;
 const PATTERN_ID = "brush_pattern";
@@ -53,7 +52,7 @@ function BrushGraph<DataType>({
     isSkeleton,
     tooltipLabel,
 }: BrushProps<DataType>) {
-    // convert data into a common format using accessors
+    // Convert data into a common format using accessors
     const xydata = useMemo(
         () =>
             data.map(d => ({
@@ -72,7 +71,7 @@ function BrushGraph<DataType>({
         },
         [xydata],
     );
-    // very short debounce time to prevent it feeling delayed
+    // Very short debounce time to prevent it feeling delayed (should be replaced by react 18 features)
     const debouncedFilter = useRef(debounce(handleFilter, 5)).current;
     const onBrushChange = (domain: Bounds | null) => {
         if (!domain) return;
@@ -125,7 +124,7 @@ function BrushGraph<DataType>({
         [yBrushBounds, xydata],
     );
 
-    // sets the brush position when loaded and rest
+    // Sets the brush position when loaded and rest
     const initialBrushPosition = useInitialBrushPosition({ data: xydata, brushXScale, initalFilter });
 
     const { handleTooltip, hideTooltip, tooltipData, tooltipLeft, tooltipTop } = useTooltipLineHelper({
@@ -134,7 +133,6 @@ function BrushGraph<DataType>({
         filteredData,
     });
 
-    // event handlers
     const handleClear = () => {
         if (brushRef?.current) {
             setFilteredData(xydata);
@@ -161,7 +159,7 @@ function BrushGraph<DataType>({
         }
     }, [initialBrushPosition.end, initialBrushPosition.start]);
 
-    // triggers displaing the filtered data on first load
+    // Triggers displaing the filtered data on first load
     useEffect(() => {
         initalFilter !== "none" ? handleReset() : setFilteredData(xydata);
     }, [handleReset, initalFilter, xydata]);
@@ -185,7 +183,7 @@ function BrushGraph<DataType>({
                 />
                 {tooltipData ? (
                     <TooltipMarker
-                        tooltipTop={tooltipTop}
+                        tooltipTop={yScale(tooltipData.y) || 0}
                         tooltipLeft={tooltipLeft}
                         tooltipData={tooltipData}
                         yMax={yBounds}

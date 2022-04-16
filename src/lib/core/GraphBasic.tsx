@@ -59,7 +59,7 @@ export default function GraphBasic({
     yLabel,
     isSkeleton,
 }: LineBasicProps) {
-    // this shows less ticks (markers on an axis) at smaller widths
+    // This shows less ticks (markers on an axis) at smaller widths
     const ticks = width > 520 ? 10 : 5;
 
     return (

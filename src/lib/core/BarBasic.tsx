@@ -36,7 +36,7 @@ export default function BarBasic<DataType>({
     tooltipLabel,
     isSkeleton,
 }: BarProps<DataType>) {
-    // convert data into a common format using accessors
+    // Convert data into a common format using accessors
     const xydata = useMemo(
         () =>
             data.map(d => ({
@@ -59,7 +59,7 @@ export default function BarBasic<DataType>({
         [isSkeleton],
     );
 
-    // doesn't use useTooltipHelper since finding the nearest point behaves differently to line graphs
+    // Doesn't use useTooltipHelper since finding the nearest point behaves differently to line graphs
     const { tooltipOpen, tooltipLeft, tooltipTop, tooltipData, hideTooltip, showTooltip } = useTooltip<TooltipData>();
 
     const handleMouseMove = useCallback(

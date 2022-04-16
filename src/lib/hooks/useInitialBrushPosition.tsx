@@ -10,16 +10,16 @@ interface Props {
 
 const useInitialBrushPosition = ({ data, initalFilter, brushXScale }: Props) => {
     return useMemo(() => {
-        // if there is no data or no filter don't set the brush
+        // If there is no data or no filter don't set the brush
         return data.length === 0 || initalFilter === "none"
             ? {
                   start: { x: 0 },
                   end: { y: 0 },
               }
             : {
-                  // brush starts at scaled location of the first dataset x position
+                  // Brush starts at scaled location of the first dataset x position
                   start: { x: brushXScale(data[0].x) },
-                  // brush ends at scaled location of an x position in the
+                  // Brush ends at scaled location of an x position in the
                   // dataset at a fraction of the way through the data
                   end: {
                       x: brushXScale(data[Math.floor(data.length / initalFilter)].x),

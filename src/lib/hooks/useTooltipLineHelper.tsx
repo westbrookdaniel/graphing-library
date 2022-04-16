@@ -22,18 +22,18 @@ export function useTooltipLineHelper({ xScale, margin, filteredData }: Props) {
         tooltipTop = 0,
         tooltipLeft = 0,
     } = useTooltip<Xydata>();
-    // the handler for tooltip is debounced to improve performance for large datasets
+    // The handler for tooltip is debounced to improve performance for large datasets
     // very short debounce time to prevent it feeling delayed
     const debouncedUpdate = useRef(debounce(updateTooltip, 5)).current;
     const handleTooltip = useCallback(
         (event: React.TouchEvent<SVGRectElement> | React.MouseEvent<SVGRectElement>) => {
             const { x, y } = localPoint(event) || { x: 0 };
 
-            // account for the offset we put on the handler
-            // invert exists on LinearScale but the types only say it only exists on DateScale
+            // Account for the offset we put on the handler
+            // Invert exists on LinearScale but the types only say it only exists on DateScale
             const x0 = (xScale as any).invert(x - margin.left);
 
-            // figures out where x0 would lie within the dataset
+            // Figures out where x0 would lie within the dataset
             const index = findDatasetPoint(x0, filteredData);
 
             const d0 = filteredData[index - 1];

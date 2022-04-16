@@ -22,44 +22,44 @@ export function useTooltipMultiLineHelper({ xScale, margin, filteredData }: Prop
         tooltipTop = 0,
         tooltipLeft = 0,
     } = useTooltip<Xydata[]>();
-    // the handler for tooltip is debounced to improve performance for large datasets
+    // The handler for tooltip is debounced to improve performance for large datasets
     // very short debounce time to prevent it feeling delayed
     const debouncedUpdate = useRef(debounce(updateTooltip, 5)).current;
     const handleTooltip = useCallback(
         (event: React.TouchEvent<SVGRectElement> | React.MouseEvent<SVGRectElement>) => {
             const { x, y } = localPoint(event) || { x: 0 };
 
-            // account for the offset we put on the handler
-            // invert exists on LinearScale but the types only say it only exists on DateScale
+            // Account for the offset we put on the handler
+            // Invert exists on LinearScale but the types only say it only exists on DateScale
             const x0 = (xScale as any).invert(x - margin.left);
 
-            // figures out where x0 would lie within the dataset
+            // Figures out where x0 would lie within the dataset
             const index = filteredData.map(filtered => findDatasetPoint(x0, filtered));
 
             const d0 = index.map((pos, i) => filteredData[i][pos - 1]);
             const d1 = index.map((pos, i) => filteredData[i][pos]);
             let d = d0;
 
-            // checks is at least one point that exists
+            // Checks is at least one point that exists
             if (d.length === 0) return;
 
             // This makes sure the point being shown is the closest one the the cursor
-            // checks if there any points ahead with a x position
+            // Checks if there any points ahead with a x position
             if (d1 && d1.reduce((a, b) => a || b)?.x) {
-                // get the closest set of points for each dataset (eg line)
+                // Get the closest set of points for each dataset (eg line)
                 const closest = d0.map((d0i, i) => {
                     const d1i = d1[i];
                     return x0 - d0i.x > d1i.x - x0 ? d1 : d0;
                 });
-                // use the first set of points that includes x0
+                // Use the first set of points that includes x0
                 d = closest.reduce((a, b) => {
-                    // check if any of the points contain x0 as the x value
+                    // Check if any of the points contain x0 as the x value
                     const bContainsX = b.map(bi => bi.x === x0).reduce((a, b) => a || b);
                     return bContainsX ? b : a;
                 });
             }
 
-            // the multiple markers aren't offset by half a point due to the difficulty in
+            // The multiple markers aren't offset by half a point due to the difficulty in
             // calculating what the previous point is for each of the lines
 
             debouncedUpdate({

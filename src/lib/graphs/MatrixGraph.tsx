@@ -82,7 +82,7 @@ function MatrixGraph({ width, height, data, labels, isSkeleton, xLabel, yLabel }
         [labels.length, yBounds],
     );
 
-    // this changes the font size dynamically between min and max cell font size depending on the amount of labels
+    // This changes the font size dynamically between min and max cell font size depending on the amount of labels
     const fontSize = useMemo(
         () => minCellFontSize + (maxCellFontSize - minCellFontSize) / labels.length,
         [labels.length],
@@ -93,7 +93,6 @@ function MatrixGraph({ width, height, data, labels, isSkeleton, xLabel, yLabel }
     const renderCell = useCallback(
         (cell: Cell) => {
             return (
-                // Using <React.Fragment> instead of <> to allow us to use the key prop
                 <React.Fragment key={`heatmap-${cell.row}-${cell.column}`}>
                     {cell.color === "rgb(255, 255, 255)" ? null : (
                         <rect
@@ -126,7 +125,6 @@ function MatrixGraph({ width, height, data, labels, isSkeleton, xLabel, yLabel }
 
     const renderSkeleton = useCallback((cell: Cell) => {
         return (
-            // Using <React.Fragment> instead of <> to allow us to use the key prop
             <React.Fragment key={`heatmap-${cell.row}-${cell.column}`}>
                 {cell.color === "rgb(255, 255, 255)" ? null : (
                     <rect
@@ -162,7 +160,7 @@ function MatrixGraph({ width, height, data, labels, isSkeleton, xLabel, yLabel }
             const colorMax = Math.max(...row);
             const colorScale = scaleLinear<string>({
                 range: isSkeleton ? skeletonColours : matrixColours,
-                // this gives more emphasis to small numbers than a linear scale
+                // This gives more emphasis to small numbers than a linear scale
                 domain: [0, colorMax / 8, colorMax],
             });
             return colorScale;

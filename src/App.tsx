@@ -1,12 +1,13 @@
 import { ParentSize } from "@visx/responsive";
+import MatrixGraph from "./lib/graphs/MatrixGraph";
 import { getColorFromLabel } from "./lib/colors";
 import BarGraph from "./lib/graphs/BarGraph";
-import LineBrushGraph from "./lib/graphs/LineBrushGraph";
-import LineGraphMulti from "./lib/graphs/LineGraphMulti";
 import { dataGenerator, defaultAccessors } from "./lib/helpers";
+import LineGraph from "./lib/graphs/LineGraph";
+import LineBrushGraphMulti from "./lib/graphs/LineBrushGraphMulti";
 
-const lineData = dataGenerator(10000);
-const multiLineData = [dataGenerator(1000, "John"), dataGenerator(1000, "Daniel")];
+const lineData = dataGenerator(1000);
+const multiLineData = [dataGenerator(10000, "John"), dataGenerator(10000, "Daniel")];
 
 const getLineProps = (index?: number) => {
     const label = typeof index === "number" ? multiLineData[index][0]?.label : undefined;
@@ -30,17 +31,12 @@ const App: React.FC = () => {
                 </div>
                 <ParentSize>
                     {({ width }) => (
-                        <div className="space-y-16">
-                            <LineBrushGraph
-                                accessors={defaultAccessors}
-                                data={lineData}
-                                width={width}
-                                height={500}
-                                initalFilter={15}
-                            />
-                            <LineGraphMulti
+                        <div className="flex flex-col items-center space-y-16">
+                            <LineGraph accessors={defaultAccessors} data={lineData} width={width} height={500} />
+                            <LineBrushGraphMulti
                                 accessors={defaultAccessors}
                                 data={multiLineData}
+                                initalFilter={15}
                                 width={width}
                                 height={500}
                                 xLabel="Sheep"
@@ -80,6 +76,30 @@ const App: React.FC = () => {
                                 xLabel="Coffees Drunk"
                                 width={width}
                                 height={500}
+                                tooltipLabel={data => (
+                                    <div className="space-y-1">
+                                        <p>{data.y}</p>
+                                        <p>Coffees Drunk: {data.x}</p>
+                                    </div>
+                                )}
+                            />
+                            {/* 
+                                Confusion Matrix Graph
+                                Similar to: https://scikit-learn.org/stable/modules/generated/sklearn.metrics.plot_confusion_matrix.html
+                            */}
+                            <MatrixGraph
+                                data={[
+                                    [7, 4, 1, 2, 0],
+                                    [1, 4, 4, 1, 0],
+                                    [1, 8, 5, 6, 1],
+                                    [0, 2, 6, 4, 2],
+                                    [2, 1, 1, 4, 5],
+                                ]}
+                                labels={["Apple", "Orange", "Grape", "Mango", "Pear"]}
+                                xLabel="Predicted Fruit Eaten"
+                                yLabel="Actual Fruit Eaten"
+                                width={width > 600 ? 600 : width}
+                                height={width > 600 ? 600 : width}
                             />
                         </div>
                     )}
