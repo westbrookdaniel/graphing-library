@@ -21,12 +21,12 @@ const App: React.FC = () => {
                 <div className="flex items-baseline justify-between">
                     <h1 className="text-xl font-bold">Abstracted Visx Graph Library</h1>
                     <a
-                        href="https://westbrookdaniel.com/"
+                        href="https://github.com/westbrookdaniel/graphing-library"
                         target="_blank"
                         className="underline hover:no-underline text-neutral-500"
                         rel="noreferrer"
                     >
-                        <p>Daniel Westbrook</p>
+                        <p>View on Github</p>
                     </a>
                 </div>
                 <ParentSize>
